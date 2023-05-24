@@ -19,7 +19,7 @@ int main(int iteka, char **eric)
 
 	if (iteka == 2)
 	{
-		eric_iteka = open(av[1], O_RDONLY);
+		eric_iteka = open(eric[1], O_RDONLY);
 		if (eric_iteka == -1)
 		{
 			if (errno == EACCES)

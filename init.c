@@ -5,7 +5,7 @@
  *
  * Return: integer length of string
  */
-int _length(char *s)
+int _length(char *u)
 {
 	int h = 0;
 

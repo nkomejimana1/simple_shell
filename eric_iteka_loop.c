@@ -34,13 +34,13 @@ int teamw(info_t *info, char **iso)
 	free_info(info, 1);
 	if (!interactive(info) && info->status)
 		exit(info->status);
-	if (builtin_ret == -2)
+	if (ret == -2)
 	{
 		if (info->err_num == -1)
 			exit(info->status);
 		exit(info->err_num);
 	}
-	return (builtin_ret);
+	return (ret);
 }
 
 /**
@@ -67,11 +67,11 @@ int find_teamw(info_t *info)
 		{NULL, NULL}
 	};
 
-	for (a = 0; builtintbl[i].type; i++)
-		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+	for (a = 0; builtintbl[a].type; a++)
+		if (_strcmp(info->argv[0], builtintbl[a].type) == 0)
 		{
 			info->line_count++;
-			built_in_ret = builtintbl[i].func(info);
+			in_ret = builtintbl[a].func(info);
 			break;
 		}
 	return (in_ret);

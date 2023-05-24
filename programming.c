@@ -89,11 +89,11 @@ int read_hist(info_t *info)
 		if (buf[i] == '\n')
 		{
 			buf[i] = 0;
-			create_hist_order(info, buf + last, linecheck++);
+			hist_order(info, buf + last, linecheck++);
 			last = i + 1;
 		}
 	if (last != i)
-		create_hist_order(info, buf + last, linecheck++);
+		hist_order(info, buf + last, linecheck++);
 	free(buf);
 	info->histcount = linecheck;
 	while (info->histcount-- >= HIST_MAX)

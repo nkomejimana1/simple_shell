@@ -29,8 +29,8 @@ int unset_iteka(info_t *info, char *str)
 		return (1);
 	c = *p;
 	*p = 0;
-	ret = delete_node_at_index(&(info->iteka),
-		get_node_index(info->iteka, node_starts_with(info->iteka, str, -1)));
+	ret = delete_node_at_index(&(info->alias),
+		get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
 	*p = c;
 	return (ret);
 }
@@ -53,7 +53,7 @@ int set_iteka(info_t *info, char *str)
 		return (unset_iteka(info, str));
 
 	unset_iteka(info, str);
-	return (add_node_end(&(info->iteka), str, 0) == NULL);
+	return (add_node_end(&(info->alias), str, 0) == NULL);
 }
 
 /**
@@ -93,7 +93,7 @@ int _myiteka(info_t *info)
 
 	if (info->argc == 1)
 	{
-		node = info->iteka;
+		node = info->alias;
 		while (node)
 		{
 			print_iteka(node);
@@ -107,7 +107,7 @@ int _myiteka(info_t *info)
 		if (p)
 			set_iteka(info, info->argv[i]);
 		else
-			print_iteka(node_starts_with(info->iteka, info->argv[i], '='));
+			print_iteka(node_starts_with(info->alias, info->argv[i], '='));
 	}
 
 	return (0);

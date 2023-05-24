@@ -19,13 +19,13 @@ int _thiserror1(char *s)
 		{
 			output *= 10;
 			output += (s[i] - '0');
-			if (result > INT_MAX)
+			if (output > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (result);
+	return (output);
 }
 
 /**
@@ -47,13 +47,13 @@ void thiserror2(info_t *info, char *estr)
 }
 
 /**
- * print_error - function prints a decimal (integer) number (base 10)
+ * print_error1 - function prints a decimal (integer) number (base 10)
  * @input: the input
  * @fd: the filedescriptor to write to
  *
  * Return: number of characters printed
  */
-int print_error(int input, int fd)
+int print_error1(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
 	int i, count = 0;
@@ -101,7 +101,7 @@ char *convert_number(long int num, int base, int check)
 	char *ptr;
 	unsigned long n = num;
 
-	if (!(flags & CONVERT_UNSIGNED) && num < 0)
+	if (!(check & CONVERT_UNSIGNED) && num < 0)
 	{
 		n = -num;
 		sign = '-';

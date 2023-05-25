@@ -1,25 +1,26 @@
 #include "shell.h"
+
 /**
- * _myin - displays the history list, one command by line, preceded
+ * _myhistory - displays the history list, one command by line, preceded
  *              with line numbers, starting at 0.
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
  *  Return: Always 0
  */
-int _myin(info_t *info)
+int _myhistory(info_t *info)
 {
 	print_list(info->history);
 	return (0);
 }
 
 /**
- * unset_iteka - sets iteka to string
+ * unset_alias - sets alias to string
  * @info: parameter struct
- * @str: the string iteka
+ * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int unset_iteka(info_t *info, char *str)
+int unset_alias(info_t *info, char *str)
 {
 	char *p, c;
 	int ret;
@@ -36,13 +37,13 @@ int unset_iteka(info_t *info, char *str)
 }
 
 /**
- * set_iteka - sets iteka to string
+ * set_alias - sets alias to string
  * @info: parameter struct
- * @str: the string iteka
+ * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int set_iteka(info_t *info, char *str)
+int set_alias(info_t *info, char *str)
 {
 	char *p;
 
@@ -50,19 +51,19 @@ int set_iteka(info_t *info, char *str)
 	if (!p)
 		return (1);
 	if (!*++p)
-		return (unset_iteka(info, str));
+		return (unset_alias(info, str));
 
-	unset_iteka(info, str);
+	unset_alias(info, str);
 	return (add_node_end(&(info->alias), str, 0) == NULL);
 }
 
 /**
- * print_iteka - prints an iteka string
- * @node: the iteka node
+ * print_alias - prints an alias string
+ * @node: the alias node
  *
  * Return: Always 0 on success, 1 on error
  */
-int print_iteka(list_t *node)
+int print_alias(list_t *node)
 {
 	char *p = NULL, *a = NULL;
 
@@ -80,12 +81,12 @@ int print_iteka(list_t *node)
 }
 
 /**
- * _myiteka - mimics the iteka builtin (man alias)
+ * _myalias - mimics the alias builtin (man alias)
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  *  Return: Always 0
  */
-int _myiteka(info_t *info)
+int _myalias(info_t *info)
 {
 	int i = 0;
 	char *p = NULL;
@@ -96,7 +97,7 @@ int _myiteka(info_t *info)
 		node = info->alias;
 		while (node)
 		{
-			print_iteka(node);
+			print_alias(node);
 			node = node->next;
 		}
 		return (0);
@@ -105,10 +106,11 @@ int _myiteka(info_t *info)
 	{
 		p = _strchr(info->argv[i], '=');
 		if (p)
-			set_iteka(info, info->argv[i]);
+			set_alias(info, info->argv[i]);
 		else
-			print_iteka(node_starts_with(info->alias, info->argv[i], '='));
+			print_alias(node_starts_with(info->alias, info->argv[i], '='));
 	}
 
 	return (0);
 }
+

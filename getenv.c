@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * tik_environment - returns the string array copy of our environ
+ * get_environ - returns the string array copy of our environ
  * @info: Structure containing potential arguments. Used to maintain
  *          constant function prototype.
  * Return: Always 0
  */
-char **tik_environment(info_t *info)
+char **get_environ(info_t *info)
 {
 	if (!info->environ || info->env_changed)
 	{
@@ -18,25 +18,25 @@ char **tik_environment(info_t *info)
 }
 
 /**
- * tikunset - Remove an environment variable
+ * _unsetenv - Remove an environment variable
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
  *  Return: 1 on delete, 0 otherwise
  * @var: the string env var property
  */
-int tikunset(info_t *info, char *var)
+int _unsetenv(info_t *info, char *var)
 {
 	list_t *node = info->env;
 	size_t i = 0;
-	char *a;
+	char *p;
 
 	if (!node || !var)
 		return (0);
 
 	while (node)
 	{
-		a = starts_with(node->str, var);
-		if (a && *a == '=')
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
 		{
 			info->env_changed = delete_node_at_index(&(info->env), i);
 			i = 0;
@@ -50,7 +50,7 @@ int tikunset(info_t *info, char *var)
 }
 
 /**
- * tiksetenv - Initialize a new environment variable,
+ * _setenv - Initialize a new environment variable,
  *             or modify an existing one
  * @info: Structure containing potential arguments. Used to maintain
  *        constant function prototype.
@@ -58,11 +58,11 @@ int tikunset(info_t *info, char *var)
  * @value: the string env var value
  *  Return: Always 0
  */
-int tiksetenv(info_t *info, char *var, char *value)
+int _setenv(info_t *info, char *var, char *value)
 {
 	char *buf = NULL;
 	list_t *node;
-	char *a;
+	char *p;
 
 	if (!var || !value)
 		return (0);
@@ -76,8 +76,8 @@ int tiksetenv(info_t *info, char *var, char *value)
 	node = info->env;
 	while (node)
 	{
-		a = starts_with(node->str, var);
-		if (a && *a == '=')
+		p = starts_with(node->str, var);
+		if (p && *p == '=')
 		{
 			free(node->str);
 			node->str = buf;

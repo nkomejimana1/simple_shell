@@ -1,41 +1,42 @@
 #include "shell.h"
+
 /**
- * be_you - test if current char in buffer is a chain delimeter
+ * is_chain - test if current char in buffer is a chain delimeter
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
  *
  * Return: 1 if chain delimeter, 0 otherwise
  */
-int be_you(info_t *info, char *buf, size_t *p)
+int is_chain(info_t *info, char *buf, size_t *p)
 {
-	size_t m = *p;
+	size_t j = *p;
 
-	if (buf[m] == '|' && buf[m + 1] == '|')
+	if (buf[j] == '|' && buf[j + 1] == '|')
 	{
-		buf[m] = 0;
-		m++;
+		buf[j] = 0;
+		j++;
 		info->cmd_buf_type = CMD_OR;
 	}
-	else if (buf[m] == '&' && buf[m + 1] == '&')
+	else if (buf[j] == '&' && buf[j + 1] == '&')
 	{
-		buf[m] = 0;
-		m++;
+		buf[j] = 0;
+		j++;
 		info->cmd_buf_type = CMD_AND;
 	}
-	else if (buf[m] == ';') /* found end of this command */
+	else if (buf[j] == ';') /* found end of this command */
 	{
-		buf[m] = 0; /* replace semicolon with null */
+		buf[j] = 0; /* replace semicolon with null */
 		info->cmd_buf_type = CMD_CHAIN;
 	}
 	else
 		return (0);
-	*p = m;
+	*p = j;
 	return (1);
 }
 
 /**
- * have_k - checks we should continue chaining based on last status
+ * check_chain - checks we should continue chaining based on last status
  * @info: the parameter struct
  * @buf: the char buffer
  * @p: address of current position in buf
@@ -44,16 +45,16 @@ int be_you(info_t *info, char *buf, size_t *p)
  *
  * Return: Void
  */
-void have_k(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 {
-	size_t m = *p;
+	size_t j = *p;
 
 	if (info->cmd_buf_type == CMD_AND)
 	{
 		if (info->status)
 		{
 			buf[i] = 0;
-			m = len;
+			j = len;
 		}
 	}
 	if (info->cmd_buf_type == CMD_OR)
@@ -61,20 +62,20 @@ void have_k(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 		if (!info->status)
 		{
 			buf[i] = 0;
-			m = len;
+			j = len;
 		}
 	}
 
-	*p = m;
+	*p = j;
 }
 
 /**
- * relay_iteka - relays an iteka in the tokenized string
+ * replace_alias - replaces an aliases in the tokenized string
  * @info: the parameter struct
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int relay_iteka(info_t *info)
+int replace_alias(info_t *info)
 {
 	int i;
 	list_t *node;
@@ -98,12 +99,12 @@ int relay_iteka(info_t *info)
 }
 
 /**
- * r_month - replaces months in the tokenized string
+ * replace_vars - replaces vars in the tokenized string
  * @info: the parameter struct
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int r_month(info_t *info)
+int replace_vars(info_t *info)
 {
 	int i = 0;
 	list_t *node;
@@ -139,15 +140,16 @@ int r_month(info_t *info)
 }
 
 /**
- * r_ing - replaces ing
+ * replace_string - replaces string
  * @old: address of old string
  * @new: new string
  *
  * Return: 1 if replaced, 0 otherwise
  */
-int r_ing(char **old, char *new)
+int replace_string(char **old, char *new)
 {
 	free(*old);
 	*old = new;
 	return (1);
 }
+

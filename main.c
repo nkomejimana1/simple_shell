@@ -2,44 +2,44 @@
 
 /**
  * main - entry point
- * @iteka: arg count
- * @eric: arg vector
+ * @ac: arg count
+ * @av: arg vector
  *
  * Return: 0 on success, 1 on error
  */
-int main(int iteka, char **eric)
+int main(int ac, char **av)
 {
 	info_t info[] = { INFO_INIT };
-	int eric_iteka = 2;
+	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
 			"add $3, %0"
-			: "=r" (eric_iteka)
-			: "r" (eric_iteka));
+			: "=r" (fd)
+			: "r" (fd));
 
-	if (iteka == 2)
+	if (ac == 2)
 	{
-		eric_iteka = open(eric[1], O_RDONLY);
-		if (eric_iteka == -1)
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
 		{
 			if (errno == EACCES)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_eputs(eric[0]);
+				_eputs(av[0]);
 				_eputs(": 0: Can't open ");
-				_eputs(eric[1]);
+				_eputs(av[1]);
 				_eputchar('\n');
 				_eputchar(BUF_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
 		}
-		info->readfd = eric_iteka;
+		info->readfd = fd;
 	}
 	populate_env_list(info);
 	read_history(info);
-	hsh(info, eric);
+	hsh(info, av);
 	return (EXIT_SUCCESS);
 }
 

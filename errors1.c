@@ -1,15 +1,15 @@
 #include "shell.h"
 
 /**
- * _thiserror1 - converts a string to an integer
+ * _erratoi - converts a string to an integer
  * @s: the string to be converted
  * Return: 0 if no numbers in string, converted number otherwise
  *       -1 on error
  */
-int _thiserror1(char *s)
+int _erratoi(char *s)
 {
 	int i = 0;
-	unsigned long int output = 0;
+	unsigned long int result = 0;
 
 	if (*s == '+')
 		s++;  /* TODO: why does this make main return 255? */
@@ -17,25 +17,25 @@ int _thiserror1(char *s)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
 		{
-			output *= 10;
-			output += (s[i] - '0');
-			if (output > INT_MAX)
+			result *= 10;
+			result += (s[i] - '0');
+			if (result > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (output);
+	return (result);
 }
 
 /**
- * thiserror2 - prints an error message
+ * print_error - prints an error message
  * @info: the parameter & return info struct
  * @estr: string containing specified error type
  * Return: 0 if no numbers in string, converted number otherwise
  *        -1 on error
  */
-void thiserror2(info_t *info, char *estr)
+void print_error(info_t *info, char *estr)
 {
 	_eputs(info->fname);
 	_eputs(": ");
@@ -47,13 +47,13 @@ void thiserror2(info_t *info, char *estr)
 }
 
 /**
- * print_error1 - function prints a decimal (integer) number (base 10)
+ * print_d - function prints a decimal (integer) number (base 10)
  * @input: the input
  * @fd: the filedescriptor to write to
  *
  * Return: number of characters printed
  */
-int print_error1(int input, int fd)
+int print_d(int input, int fd)
 {
 	int (*__putchar)(char) = _putchar;
 	int i, count = 0;
@@ -89,11 +89,11 @@ int print_error1(int input, int fd)
  * convert_number - converter function, a clone of itoa
  * @num: number
  * @base: base
- * @check: argument flags
+ * @flags: argument flags
  *
  * Return: string
  */
-char *convert_number(long int num, int base, int check)
+char *convert_number(long int num, int base, int flags)
 {
 	static char *array;
 	static char buffer[50];
@@ -101,13 +101,13 @@ char *convert_number(long int num, int base, int check)
 	char *ptr;
 	unsigned long n = num;
 
-	if (!(check & CONVERT_UNSIGNED) && num < 0)
+	if (!(flags & CONVERT_UNSIGNED) && num < 0)
 	{
 		n = -num;
 		sign = '-';
 
 	}
-	array = check & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
 	ptr = &buffer[49];
 	*ptr = '\0';
 
@@ -122,12 +122,12 @@ char *convert_number(long int num, int base, int check)
 }
 
 /**
- * no_comment - function replaces first instance of '#' with '\0'
+ * remove_comments - function replaces first instance of '#' with '\0'
  * @buf: address of the string to modify
  *
  * Return: Always 0;
  */
-void no_comment(char *buf)
+void remove_comments(char *buf)
 {
 	int i;
 

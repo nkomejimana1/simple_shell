@@ -1,44 +1,45 @@
 #include "shell.h"
+
 /**
- * _bellset - fills memory with a constant byte
+ * _memset - fills memory with a constant byte
  * @s: the pointer to the memory area
  * @b: the byte to fill *s with
  * @n: the amount of bytes to be filled
  * Return: (s) a pointer to the memory area s
  */
-char *_bellset(char *s, char b, unsigned int n)
+char *_memset(char *s, char b, unsigned int n)
 {
-	unsigned int h;
+	unsigned int i;
 
-	for (h = 0; h < n; h++)
-		s[h] = b;
+	for (i = 0; i < n; i++)
+		s[i] = b;
 	return (s);
 }
 
 /**
- * allfree - frees a string of strings
+ * ffree - frees a string of strings
  * @pp: string of strings
  */
-void allfree(char **pp)
+void ffree(char **pp)
 {
-	char **e = pp;
+	char **a = pp;
 
 	if (!pp)
 		return;
 	while (*pp)
 		free(*pp++);
-	free(e);
+	free(a);
 }
 
 /**
- * _mereal - reallocates a block of memory
+ * _realloc - reallocates a block of memory
  * @ptr: pointer to previous malloc'ated block
  * @old_size: byte size of previous block
  * @new_size: byte size of new block
  *
  * Return: pointer to da ol'block nameen.
  */
-void *_mereal(void *ptr, unsigned int old_size, unsigned int new_size)
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	char *p;
 
@@ -59,3 +60,4 @@ void *_mereal(void *ptr, unsigned int old_size, unsigned int new_size)
 	free(ptr);
 	return (p);
 }
+

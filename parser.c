@@ -1,12 +1,13 @@
 #include "shell.h"
+
 /**
- * at_cmd - determines if a file is an executable command
+ * is_cmd - determines if a file is an executable command
  * @info: the info struct
  * @path: path to the file
  *
  * Return: 1 if true, 0 otherwise
  */
-int at_cmd(info_t *info, char *path)
+int is_cmd(info_t *info, char *path)
 {
 	struct stat st;
 
@@ -22,14 +23,14 @@ int at_cmd(info_t *info, char *path)
 }
 
 /**
- * art_chars - duplicates characters
+ * dup_chars - duplicates characters
  * @pathstr: the PATH string
  * @start: starting index
  * @stop: stopping index
  *
  * Return: pointer to new buffer
  */
-char *art_chars(char *pathstr, int start, int stop)
+char *dup_chars(char *pathstr, int start, int stop)
 {
 	static char buf[1024];
 	int i = 0, k = 0;
@@ -42,14 +43,14 @@ char *art_chars(char *pathstr, int start, int stop)
 }
 
 /**
- * get_path - gets this cmd in the PATH string
+ * find_path - finds this cmd in the PATH string
  * @info: the info struct
  * @pathstr: the PATH string
  * @cmd: the cmd to find
  *
  * Return: full path of cmd if found or NULL
  */
-char *get_path(info_t *info, char *pathstr, char *cmd)
+char *find_path(info_t *info, char *pathstr, char *cmd)
 {
 	int i = 0, curr_pos = 0;
 	char *path;
@@ -65,7 +66,7 @@ char *get_path(info_t *info, char *pathstr, char *cmd)
 	{
 		if (!pathstr[i] || pathstr[i] == ':')
 		{
-			path = art_chars(pathstr, curr_pos, i);
+			path = dup_chars(pathstr, curr_pos, i);
 			if (!*path)
 				_strcat(path, cmd);
 			else
@@ -83,3 +84,4 @@ char *get_path(info_t *info, char *pathstr, char *cmd)
 	}
 	return (NULL);
 }
+
